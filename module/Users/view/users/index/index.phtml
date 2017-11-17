@@ -1,0 +1,53 @@
+<?php if ($users->count()) { ?>
+    <?php foreach ($users as $user) { ?>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="col-sm-2">
+                    <a href="/users/show/<?php echo $user['id'] ?>">
+                        <?php if ($user['avatar']) { ?>
+                            <img class="img-responsive"
+                                 src="<?php echo $this->htImgUrl($user['avatar'], 'my_thumbnail') ?>" alt="">
+                        <?php } else { ?>
+                            <img class="img-responsive"
+                                 src="<?php echo $this->htImgUrl('/img/default-logo.jpeg', 'my_thumbnail') ?>"
+                                 alt="">
+                        <?php } ?>
+                    </a>
+                    <p>
+                        <a href="/users/show/<?php echo $user['id'] ?>">
+                            <?php echo $this->escapeHtml($user['login']) ?>
+                        </a>
+                    </p>
+                </div>
+                <div class="col-sm-8 text-center">
+                    <h3><strong><?php echo $user['rating'] ?></strong></h3>
+                </div>
+                <?php if ($currentUser && $user['id'] != $currentUser->id) { ?>
+                    <div class="col-sm-2 text-right">
+                        <div>
+                            <form class="ratingForm">
+                                <input type="hidden" name="mark" value="1">
+                                <input type="hidden" name="toUserId" value="<?php echo $user['id'] ?>">
+                                <?php echo $this->formHidden($ratingForm->get('csrf')); ?>
+                                <button class="btn btn-default <?php if ($user['mark'] == 1) { ?>active<?php } ?>">+
+                                </button>
+                            </form>
+                            <br>
+                            <form class="ratingForm visible-*-inline">
+                                <input type="hidden" name="mark" value="-1">
+                                <input type="hidden" name="toUserId" value="<?php echo $user['id'] ?>">
+                                <?php echo $this->formHidden($ratingForm->get('csrf')); ?>
+                                <button class="btn btn-default <?php if ($user['mark'] == -1) { ?>active<?php } ?>">-
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+    <?php } ?>
+<?php } else { ?>
+    <div class="col-sm-12">
+        <h3>Пока нет ни одного пользователя</h3>
+    </div>
+<?php } ?>

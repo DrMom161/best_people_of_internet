@@ -1,0 +1,29 @@
+<?php
+
+$title = 'Авторизация';
+$this->headTitle($title);
+?>
+    <h1><?php echo $this->escapeHtml($title); ?></h1>
+<?php
+/**@var \Users\Form\LoginForm $form */
+$form->setAttribute('action', $this->url('users', ['action' => 'login']));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+?>
+    <div class="form-group">
+        <?php echo $this->formRow($form->get('login')); ?>
+    </div>
+    <div class="form-group">
+        <?php echo $this->formRow($form->get('password')); ?>
+    </div>
+    <div class="form-group">
+        <label>
+            <?php echo $this->formRow($form->get('captcha')); ?>
+        </label>
+    </div>
+    <div class="form-group">
+        <?php echo $this->formHidden($form->get('csrf')); ?>
+        <?php echo $this->formSubmit($form->get('submit')); ?>
+    </div>
+<?php echo $this->form()->closeTag(); ?>

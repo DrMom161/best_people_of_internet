@@ -1,0 +1,43 @@
+<?php
+
+$title = 'Регистрация';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<?php
+/**@var \Users\Form\RegisterForm $form */
+$form->setAttribute('action', $this->url('users', ['action' => 'register']));
+$form->prepare();
+echo $this->form()->openTag($form); ?>
+
+<div class="form-group">
+    <?php echo $this->formHidden($form->get('id')); ?>
+</div>
+<div class="form-group">
+    <?php echo $this->formRow($form->get('login')); ?>
+</div>
+<div class="form-group">
+    <?php echo $this->formRow($form->get('password')); ?>
+    <label>
+        <input type="checkbox" id="show-password">
+        показать пароль
+    </label>
+</div>
+<div class="form-group">
+    <?php $fileElement = $form->get('avatar'); ?>
+    <?php echo $this->formLabel($fileElement); ?>
+    <?php echo $this->formFile($fileElement); ?>
+    <?php echo $this->formElementErrors($fileElement); ?>
+</div>
+<div class="form-group">
+    <?php echo $this->formRow($form->get('gender')); ?>
+</div>
+<div class="form-group">
+    <?php echo $this->formHidden($form->get('csrf')); ?>
+    <?php echo $this->formSubmit($form->get('submit')); ?>
+</div>
+
+<?php echo $this->form()->closeTag(); ?>
+<script>
+    var register_page = true;
+</script>

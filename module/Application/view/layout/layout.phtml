@@ -1,0 +1,76 @@
+<?= $this->doctype() ?>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <?= $this->headTitle('Best people')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+    <?= $this->headMeta()
+        ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+        ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+    ?>
+
+    <?= $this->headLink([
+        'rel' => 'shortcut icon',
+        'type' => 'image/vnd.microsoft.icon',
+        'href' => $this->basePath() . '/img/favicon.ico'
+    ])
+        ->prependStylesheet($this->basePath('css/style.css'))
+        ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
+        ->prependStylesheet($this->basePath('css/bootstrap.min.css'))
+    ?>
+
+    <?= $this->headScript()
+        ->prependFile($this->basePath('js/bootstrap.min.js'))
+        ->prependFile($this->basePath('js/jquery-3.1.0.min.js'))
+    ?>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-2">
+            <?php if ($showLinkToHome) { ?>
+                <a href="/">← На главную</a>
+            <?php } ?>
+        </div>
+        <div class="col-sm-4 col-sm-offset-6 text-right">
+            <?php if (!$currentUser) { ?>
+                <?php if ($action != 'login') { ?>
+                    <p>
+                        <a href="/users/login">Войти</a>
+                    </p>
+                <?php } ?>
+                <?php if ($action != 'register') { ?>
+                    <p>
+                        <a href="/users/register">Зарегистрироваться</a>
+                    </p>
+                <?php } ?>
+            <?php } else { ?>
+                <div class="row text-left">
+                    Привет, <a href="/users/edit"><?php echo $this->escapeHtml($currentUser->login) ?></a>
+                </div>
+                <div class="row text-left">
+                    <div class="col-sm-5">
+                        <a href="/users/edit">
+                            <img src="<?php echo $this->htImgUrl(
+                                $currentUser->avatar ?: '/img/default-logo.jpeg', 'my_thumbnail'
+                            ) ?>" alt="">
+                        </a>
+                        <p>
+                            <a href="/users/logout">Выйти</a>
+                        </p>
+                    </div>
+                    <div class="col-sm-7 text-center">
+                        <h2><?php echo $currentUser->rating ?></h2>
+                    </div>
+                </div>
+            <?php } ?>
+        </div>
+    </div>
+    <?= $this->content ?>
+</div>
+<?= $this->inlineScript() ?>
+<script data-main="/js/app/main" src="/js/require.js"></script>
+</body>
+</html>

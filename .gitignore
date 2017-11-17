@@ -1,0 +1,6 @@
+vendor/
+data/cache/
+public/htimg/
+data/captcha/
+.idea/
+data/images/avatars/*

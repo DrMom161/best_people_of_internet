@@ -1,0 +1,81 @@
+<style>
+    .ratingForm {
+        display: inline;
+    }
+</style>
+<?php
+$title = 'Профиль пользователя';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="col-sm-1">
+            <?php if ($user['avatar']) { ?>
+                <img class="img-responsive" src="<?php echo $this->htImgUrl($user['avatar'], 'my_thumbnail') ?>"
+                     alt="">
+            <?php } else { ?>
+                <img class="img-responsive"
+                     src="<?php echo $this->htImgUrl('/img/default-logo.jpeg', 'my_thumbnail') ?>"
+                     alt="">
+            <?php } ?>
+        </div>
+        <div class="col-sm-11">
+            <h2><?php echo $this->escapeHtml($user['login']) ?></h2>
+            <?php if ($user['id'] == $currentUser->id) { ?>
+                <p>
+                    <a href="/users/edit">Редактировать информацию о себе</a>
+                </p>
+            <?php } ?>
+            <h3>Карма: <strong class="user-rating"><?php echo $user['rating'] ?></strong></h3>
+            <?php if ($currentUser && $user['id'] != $currentUser->id) { ?>
+                <div>
+                    <form class="ratingForm visible-*-inline">
+                        <input type="hidden" name="mark" value="-1">
+                        <input type="hidden" name="toUserId" value="<?php echo $user['id'] ?>">
+                        <?php echo $this->formHidden($ratingForm->get('csrf')); ?>
+                        <button class="btn btn-default <?php if ($user['mark'] == 1) { ?>active<?php } ?>">-</button>
+                    </form>
+                    <form class="ratingForm">
+                        <input type="hidden" name="mark" value="1">
+                        <input type="hidden" name="toUserId" value="<?php echo $user['id'] ?>">
+                        <?php echo $this->formHidden($ratingForm->get('csrf')); ?>
+                        <button class="btn btn-default <?php if ($user['mark'] == -1) { ?>active<?php } ?>">+</button>
+                    </form>
+                </div>
+            <?php } ?>
+            <input type="hidden" id="userId" value="<?php echo $user['id'] ?>">
+        </div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">История</div>
+    <div class="panel-body">
+        <div id="ratings-list"></div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">Комментарии</div>
+    <div class="panel-body">
+        <div class="row" id="comments-list"></div>
+        <?php if ($currentUser) { ?>
+            <div class="row">
+                <div class="col-sm-12">
+                    <form id="commentsForm">
+                        <input type="hidden" value="<?php echo $user['id'] ?>" name="toUserId">
+                        <?php echo $this->formHidden($commentForm->get('csrf')); ?>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Оставить комментарий</label>
+                            <textarea required class="form-control" name="comment"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-default">Отправить</button>
+                    </form>
+                </div>
+            </div>
+        <?php } ?>
+    </div>
+</div>
+<script>
+    var user_show_page = true;
+</script>

@@ -1,0 +1,15 @@
+<style>
+    .ratingForm .btn {
+        width: 35px;
+    }
+</style>
+<?php
+$title = 'Лучшие люди Интернета';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<div class="row" id="users-list"></div>
+<script>
+    var index_page = true;
+</script>

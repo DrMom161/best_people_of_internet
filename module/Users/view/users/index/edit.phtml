@@ -1,0 +1,30 @@
+<?php
+
+$title = 'Редактирование профиля';
+$this->headTitle($title);
+?>
+    <h1><?php echo $this->escapeHtml($title); ?></h1>
+<?php
+/**@var \Users\Form\EditForm $form */
+$form->setAttribute('action', $this->url('users', ['action' => 'edit']));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+?>
+    <div class="form-group">
+        <label>
+            <span>Логин:</span>
+            <input class="form-control" disabled value="<?php echo $this->escapeHtml($user->login) ?>">
+        </label>
+    </div>
+    <div class="form-group">
+        <?php echo $this->formRow($form->get('avatar')); ?>
+    </div>
+    <div class="form-group">
+        <?php echo $this->formRow($form->get('gender')); ?>
+    </div>
+    <div class="form-group">
+        <?php echo $this->formHidden($form->get('csrf')); ?>
+        <?php echo $this->formSubmit($form->get('submit')); ?>
+    </div>
+<?php echo $this->form()->closeTag(); ?>
